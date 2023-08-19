@@ -1,16 +1,15 @@
+import React from 'react'
 export const initailState = {
     products: [],
     total: 0,
 }
-
-import React from 'react'
-
-const ShopReducer = (state, action) => {
+// Reducer is just like method that do specific things
+const shopReducer = (state, action) => {
     const {type, payload} = action;
 
     switch (type) {
         //Add Cart To products method
-        case 'ADD_CART_TO_PRODUCT':{
+        case 'ADD_PRODUCT_TO_CART':{
             return{
                 ...state,
                 priducts: payload.products
@@ -18,15 +17,15 @@ const ShopReducer = (state, action) => {
         }
 
         //update quantity
-        case 'UPDATE_QUANTITY_PRODUCT':{
+        case 'UPDATE_PRODUCT_QUANTIITY':{
             return{
                 ...state,
                 products: payload.products
             }
         }
 
-        //delete product from cart
-        case 'DELETE_PRODUCT_FROM_CART':{
+        //remove product from cart
+        case 'REMEOVE_PRODUCT_FROM_CART':{
             return{
                 ...state,
                 products: payload.products
@@ -34,15 +33,15 @@ const ShopReducer = (state, action) => {
         }
 
         //Calculate total product quantities
-        case 'CALCULATE_PRODUCT_TOTAL': {
+        case 'CALCULATE_TOTAL_PRODUCTS': {
             return{
                 ...state,
                 total: payload.total
             }
         }
 
-        //Clear Product Cart
-        case 'CLEAR_PRODUCT_CART': {
+        //Clear All Product Cart
+        case 'CLEAR_PRODUCT_CARTS': {
             return initailState
         }
 
@@ -52,4 +51,4 @@ const ShopReducer = (state, action) => {
   
 }
 
-export default ShopReducer
+export default shopReducer;
