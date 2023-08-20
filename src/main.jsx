@@ -9,6 +9,7 @@ import Producr from "./pages/Product.jsx";
 import Contact from "./pages/Contact.jsx";
 import Cart from "./pages/Cart.jsx";
 import { ShopProvider } from "./ShopContext.jsx";
+import Home from "./pages/Home.jsx";
 const routerProvider = createBrowserRouter([
   {
     path: "/",
@@ -16,7 +17,7 @@ const routerProvider = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Products/>
+        element: <Home/>
       },
       {
         path: "/about",

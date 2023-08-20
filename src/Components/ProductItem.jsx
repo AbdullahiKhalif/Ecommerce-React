@@ -11,7 +11,7 @@ const ProductItems = ( {product }) => {
       <img
         src={product.thumbnail}
         alt={product.title}
-        className="w-full h-48 rounded object-cover"
+        className="w-full h-48 rounded object-cover transition-transform duration-500 transform hover:scale-110 hover:rounded-lg"
       />
       <div className="p-4">
         <h2 className="font-bold mb-4">{product.title}</h2>
