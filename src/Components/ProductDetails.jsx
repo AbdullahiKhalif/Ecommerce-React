@@ -1,9 +1,12 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import ProductDetailsSkeleton from "./ProductDetailsSkeleton";
+import useShop from "../ShopContext";
 
 const ProductDetails = () => {
+  const { addToCart} = useShop();
+
   const [product, setProduct] = useState(null);
   const [mainImage, setMainImage] = useState(null);
   const { id } = useParams();
@@ -28,7 +31,7 @@ const ProductDetails = () => {
     getProductDetail();
   }, [id]);
 
-  if(loading) return <ProductDetailsSkeleton/>
+  if (loading) return <ProductDetailsSkeleton />;
   return (
     product && (
       <div className="p-4 md:p-8">
@@ -88,7 +91,8 @@ const ProductDetails = () => {
             </div>
 
             <div className="mt-4">
-              <button className="bg-pink-600 px-4 py-2 text-white rounded-md shadow hover:bg-pink-800 transition-colors duration-200">
+              <button className="bg-pink-600 px-4 py-2 text-white rounded-md shadow hover:bg-pink-800 transition-colors duration-200"
+              onClick={() => addToCart(product)}>
                 {" "}
                 Add to Cart
               </button>

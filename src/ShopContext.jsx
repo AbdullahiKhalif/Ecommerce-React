@@ -1,10 +1,17 @@
-import React, { createContext, useReducer } from "react";
+import React, { createContext, useContext, useEffect, useReducer } from "react";
 import shopReducer, { initailState } from "./ShopReducer";
 
-const ShopContext = createContext();
+export const ShopContext = createContext();
 
-export const shopProvider = ({ children }) => {
+export const ShopProvider = ({ children }) => {
   const [state, dispatch] = useReducer(shopReducer, initailState);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "cart_items",
+      JSON.stringify({ total: state.total, products: state.products })
+    );
+  }, [state]);
 
   // prepare the methods
   // calculate the total
@@ -12,7 +19,7 @@ export const shopProvider = ({ children }) => {
     let total = 0;
 
     products.forEach((product) => {
-      total += product.price;
+      total += product.price * product.quantity;
     });
 
     dispatch({
@@ -26,13 +33,7 @@ export const shopProvider = ({ children }) => {
     const productIndex = state.products.findIndex((p) => p.id === product.id);
     let updatedProduct = [...state.products];
 
-    if (productIndex !== -1) {
-      //update product quantity
-      updatedProduct[productIndex] = {
-        ...updatedProduct[productIndex],
-        quantity: updatedProduct[productIndex].quantity + 1,
-      };
-    } else {
+    if (productIndex === -1) {
       // add new product
       updatedProduct = [
         ...updatedProduct,
@@ -41,6 +42,12 @@ export const shopProvider = ({ children }) => {
           quantity: 1,
         },
       ];
+    } else {
+      //update product quantity
+      updatedProduct[productIndex] = {
+        ...updatedProduct[productIndex],
+        quantity: updatedProduct[productIndex].quantity + 1,
+      };
     }
 
     //TODO: calculate the total price
@@ -53,38 +60,39 @@ export const shopProvider = ({ children }) => {
     });
   };
 
-  const updateProductQuantity = (product,newQuantity) => {
-    const productIndex = state.products.findIndex((prop) => prop.id !== product.id);
+  const updateProductQuantity = (product, newQuantity) => {
+    const productIndex = state.products.findIndex((p) => p.id === product.id);
     let updatedProduct = [...state.products];
-    
-    if(newQuantity <= 0){
-      updatedProduct = state.products.filter((prop) => prop.id !== product.id);
-    }else{
-      updatedProduct[productIndex] = [
-        ...updatedProduct[productIndex],{
-          quantity: newQuantity
-        }
 
-      ]
-    };
+    if (newQuantity <= 0) {
+      updatedProduct = updatedProduct.filter((pro) => pro.id !== product.id);
+    } else {
+      updatedProduct[productIndex] = {
+        ...updatedProduct[productIndex],
+        quantity: newQuantity,
+      };
+    }
     calculateTotalPrice(updatedProduct);
+
     dispatch({
-      type: "UPDATE_PRODUCT_QUANTIITY",
+      type: "UPDATE_PRODUCT_QUANTITY",
       payload: {
-        productts: updatedProduct()
-      }
-    })
+        products: updatedProduct,
+      },
+    });
   };
 
   // remove product from cart methods
   const removeFromCart = (product) => {
-    const updatedProduct = state.products.flitter(pro => prod.id !== product.id);
+    const updatedProduct = state.products.filter(
+      (pro) => pro.id !== product.id
+    );
     calculateTotalPrice(updatedProduct);
     dispatch({
       type: "REMEOVE_PRODUCT_FROM_CART",
       payload: {
         products: updatedProduct,
-      }
+      },
     });
   };
 
@@ -92,27 +100,30 @@ export const shopProvider = ({ children }) => {
   const clearProductCarts = () => {
     dispatch({
       type: "CLEAR_PRODUCT_CARTS",
-      payload: {}
-    })
+      payload: {},
+    });
   };
 
   // create a new value variable that holds all functions that are defined
   const value = {
-    products: state.product,
+    products: state.products,
     total: state.total,
     addToCart,
     updateProductQuantity,
     removeFromCart,
     clearProductCarts,
-  }
+  };
 
-  // don't miss return your context 
-  return(
-    <ShopContext.Provider value={value}>
-      {children}
-    </ShopContext.Provider>
+  // don't miss return your context
+  return (
+    <ShopContext.Provider value={value}>{children}</ShopContext.Provider>
 
     // After that go to your main file and wrap this shopContext into your project
-  )
+  );
 };
 
+const useShop = () => {
+  const context = useContext(ShopContext);
+  return context;
+};
+export default useShop;

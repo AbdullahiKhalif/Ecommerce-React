@@ -1,6 +1,27 @@
-import React from "react";
+import useShop from "../ShopContext";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { AiFillCheckCircle } from "react-icons/ai";
 
 const Payments = () => {
+  const notify = () => {
+    // toast.success("Successfully Proceeded Cart!", {
+    //   position: "top-center",
+    //   progressClassName: "toast-progress",
+    //   autoClose: 3000,
+    //   progress: true,
+    //   icon: <AiFillCheckCircle className="text-green-600" />, // Replace with your success icon
+    // });
+    alert("Successfully Proceeded Carts.✔");
+    clearProductCarts();
+  };
+
+  const { total, clearProductCarts } = useShop();
+  const handleProceed = () => {
+    if (confirm("Are you sure to proceed?")) {
+      notify();
+    }
+  };
   return (
     <div className="lg:1/3">
       <div className="border p-4 rounded-lg mb-4">
@@ -31,16 +52,23 @@ const Payments = () => {
             <span className="text-gray-600 text-gl font-semibold">
               Subtotal
             </span>
-            <span className="font-semibold text-lg text-gray-600 ">$1000</span>
+            <span className="font-semibold text-lg text-gray-600 ">
+              ${total}
+            </span>
           </div>
 
           <div className="flex justify-between items-center mb-4">
             <span className="text-pink-600 text-2xl font-semibold">Total</span>
-            <span className="font-semibold text-2xl text-pink-600 ">$1000</span>
+            <span className="font-semibold text-2xl text-pink-600 ">
+              ${total}
+            </span>
           </div>
 
           <div className="block">
-            <button className="bg-pink-600 px-4 py-2 rounded-lg text-white w-full hover:bg-pink-700 transition-colors duration-200 ease-in-out">
+            <button
+              className="bg-pink-600 px-4 py-2 rounded-lg text-white w-full hover:bg-pink-700 transition-colors duration-200 ease-in-out"
+              onClick={handleProceed}
+            >
               Proceed To Checkout
             </button>
           </div>

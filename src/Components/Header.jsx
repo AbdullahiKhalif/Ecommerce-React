@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import Logo from "../assets/logo-2.png";
+import useShop, { ShopContext } from "../ShopContext";
 
 const Header = () => {
+  const {products} = useShop()
   return (
     <div className="fixed top-0 left-0 right-0 bg-white bg-opacity-60 backdrop-blur-md shadow-md z-10 ">
       <div className="max-w-4xl mx-auto flex justify-between items-center p-4">
@@ -40,7 +42,7 @@ const Header = () => {
               </svg>
 
               <span className="absolute -top-1 -right-1 flex justify-center items-center bg-pink-700 rounded-full text-white text-xs w-5 h-5">
-                0
+                {products.length}
               </span>
             </Link>
           </div>

@@ -1,5 +1,5 @@
 import React from 'react'
-export const initailState = {
+export const initailState = JSON.parse(localStorage.getItem('cart_items')) ||  {
     products: [],
     total: 0,
 }
@@ -12,12 +12,12 @@ const shopReducer = (state, action) => {
         case 'ADD_PRODUCT_TO_CART':{
             return{
                 ...state,
-                priducts: payload.products
+                products: payload.products
             }
         }
 
         //update quantity
-        case 'UPDATE_PRODUCT_QUANTIITY':{
+        case 'UPDATE_PRODUCT_QUANTITY':{
             return{
                 ...state,
                 products: payload.products
@@ -42,7 +42,10 @@ const shopReducer = (state, action) => {
 
         //Clear All Product Cart
         case 'CLEAR_PRODUCT_CARTS': {
-            return initailState
+            return {
+                products: [],
+                total: 0
+            }
         }
 
         default:
