@@ -12,7 +12,7 @@ const Header = () => {
           {/* KHALIFA */}
           <img src={Logo} alt="Logo"  className="w-28"/>
         </Link>
-        <ul className="flex space-x-8 text-xl text-gray-700">
+        <ul className="hidden lg:flex space-x-8 text-xl text-gray-700">
           <Link to="/" className="hover:text-pink-700">
             Home
           </Link>

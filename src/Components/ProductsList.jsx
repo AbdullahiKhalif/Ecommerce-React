@@ -76,7 +76,7 @@ const ProductList = () => {
   if (loading) return <ProductLoadingSkeleton />;
   return (
     <>
-    <div className="relative">
+    <div className="relative m-2">
       <input type="text" placeholder="Search Product" className="w-full p-2 pl-10 border rounded shadow focus:outline-none border-pink-400" onChange={(e) => setSearchTerm(e.target.value)} value={searchTerm} ref={searchRef} />
 
       <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
@@ -84,13 +84,13 @@ const ProductList = () => {
       </span>
     </div>
 
-    <div className="flex flex-col mt-1">
+    <div className="flex flex-col m-4">
       <h2 className="text-lg font-bold text-gray-600">
         Khalifa Shipment
       </h2>
-      <p className="">({availableProducts} products available.)</p>
+      <p className="">({availableProducts ? `${availableProducts} products available. ` : "Not Available."})</p>
     </div>
-    <div className="grid grid-cols-1 md:grid-cols-2 mt-3 lg:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 mt-3 lg:grid-cols-3 gap-4 m-2">
       {products.length > 0 &&
         products.map((product) => (
           <ProductItems key={product.id} product={product} />
