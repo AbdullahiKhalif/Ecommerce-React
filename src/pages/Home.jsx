@@ -1,5 +1,5 @@
 import React from "react";
-import hero from "../../public/hero.webp";
+import hero from "../../public/me.png";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
@@ -20,7 +20,7 @@ const Home = () => {
           </button>
         </div>
         <img
-          src="../../public/me.png"
+          src={hero}
           className="-mt-5 pb-10 object-cover h-1/3 cursor-pointer"
           alt="image"
         />
